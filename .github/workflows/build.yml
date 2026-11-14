@@ -27,12 +27,12 @@ jobs:
       - name: Upload jars
         uses: actions/upload-artifact@v4
         with:
-          name: cosmiclib-jars
+          name: logiclib-jars
           path: |
             forge/build/libs/*.jar
             neoforge/build/libs/*.jar
 
-  # Starts a real dedicated server with CosmicLib and checks the log.
+  # Starts a real dedicated server with LogicLib and checks the log.
   server-test:
     needs: build
     runs-on: ubuntu-latest
@@ -48,7 +48,7 @@ jobs:
           java-version: 21
       - uses: actions/download-artifact@v4
         with:
-          name: cosmiclib-jars
+          name: logiclib-jars
           path: jars
       - name: Install ${{ matrix.loader }} server
         run: |
@@ -61,13 +61,13 @@ jobs:
             java -jar installer.jar --install-server . > install.log 2>&1 || (tail -50 install.log; exit 1)
           fi
           ls
-          find ../jars -name "cosmiclib-${{ matrix.loader }}-${MC}-*.jar" ! -name "*-sources.jar" ! -name "*-javadoc.jar" -exec cp {} mods/ \;
+          find ../jars -name "logiclib-${{ matrix.loader }}-${MC}-*.jar" ! -name "*-sources.jar" ! -name "*-javadoc.jar" -exec cp {} mods/ \;
           ls mods
-      - name: Start server and check CosmicLib
+      - name: Start server and check LogicLib
         run: |
           chmod +x ci/server-test.sh server/run.sh
           LOADER_NAME=$([ "${{ matrix.loader }}" = "forge" ] && echo Forge || echo NeoForge)
-          ci/server-test.sh server "CosmicLib loaded on ${LOADER_NAME}" -- bash run.sh nogui
+          ci/server-test.sh server "LogicLib loaded on ${LOADER_NAME}" -- bash run.sh nogui
 
   # Starts the real Minecraft CLIENT (headless), joins a singleplayer world and quits.
   client-test:
@@ -80,12 +80,12 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: cosmiclib-jars
+          name: logiclib-jars
           path: jars
-      - name: Put CosmicLib in run/mods
+      - name: Put LogicLib in run/mods
         run: |
           mkdir -p run/mods
-          find jars -name "cosmiclib-${{ matrix.loader }}-${MC}-*.jar" ! -name "*-sources.jar" ! -name "*-javadoc.jar" -exec cp {} run/mods/ \;
+          find jars -name "logiclib-${{ matrix.loader }}-${MC}-*.jar" ! -name "*-sources.jar" ! -name "*-javadoc.jar" -exec cp {} run/mods/ \;
           ls run/mods
       - uses: actions/setup-java@v4
         with:

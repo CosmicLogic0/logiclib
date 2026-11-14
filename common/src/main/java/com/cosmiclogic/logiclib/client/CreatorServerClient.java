@@ -1,7 +1,7 @@
-package com.cosmiclogic.cosmiclib.client;
+package com.cosmiclogic.logiclib.client;
 
-import com.cosmiclogic.cosmiclib.CosmicLib;
-import com.cosmiclogic.cosmiclib.server.CreatorServer;
+import com.cosmiclogic.logiclib.LogicLib;
+import com.cosmiclogic.logiclib.server.CreatorServer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
@@ -37,11 +37,11 @@ public final class CreatorServerClient {
                 // Appended at the END of the list, never pinned or locked.
                 list.add(new ServerData(CreatorServer.NAME, CreatorServer.ADDRESS, ServerData.Type.OTHER), false);
                 list.save();
-                CosmicLib.LOG.info("Added {} to the server list (requested by {}). It will not be added again.", CreatorServer.NAME, CreatorServer.firstRequester());
+                LogicLib.LOG.info("Added {} to the server list (requested by {}). It will not be added again.", CreatorServer.NAME, CreatorServer.firstRequester());
             }
             CreatorServer.writeMarker(CreatorServer.firstRequester());
         } catch (Throwable t) {
-            CosmicLib.LOG.warn("Skipped adding the creator server: {}", t.toString());
+            LogicLib.LOG.warn("Skipped adding the creator server: {}", t.toString());
         }
     }
 }

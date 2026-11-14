@@ -1,15 +1,15 @@
-package com.cosmiclogic.cosmiclib;
+package com.cosmiclogic.logiclib;
 
-import com.cosmiclogic.cosmiclib.client.CreatorServerClient;
+import com.cosmiclogic.logiclib.client.CreatorServerClient;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 
-@Mod(CosmicLib.MOD_ID)
-public class CosmicLibNeoForge {
+@Mod(LogicLib.MOD_ID)
+public class LogicLibNeoForge {
 
-    public CosmicLibNeoForge(IEventBus modBus) {
-        CosmicLib.init();
+    public LogicLibNeoForge(IEventBus modBus) {
+        LogicLib.init();
         modBus.addListener(this::onClientSetup);
     }
 

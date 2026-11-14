@@ -1,7 +1,7 @@
-package com.cosmiclogic.cosmiclib.server;
+package com.cosmiclogic.logiclib.server;
 
-import com.cosmiclogic.cosmiclib.CosmicLib;
-import com.cosmiclogic.cosmiclib.platform.Services;
+import com.cosmiclogic.logiclib.LogicLib;
+import com.cosmiclogic.logiclib.platform.Services;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -20,11 +20,11 @@ import java.util.Set;
  * <pre>{@code
  * CreatorServer.request(MOD_ID, CONFIG.get().addCreatorServer);
  * }</pre>
- * CosmicLib then adds the entry on the client after startup, unless the shared marker file
+ * LogicLib then adds the entry on the client after startup, unless the shared marker file
  * {@code config/cosmiclogic/creator_server.json} already exists. The marker is written even if the
  * server was already in the list, so it is never added again, even after the player deletes it.
  *
- * <p>Mods that do NOT use CosmicLib must follow the same rules and use the same marker path.
+ * <p>Mods that do NOT use LogicLib must follow the same rules and use the same marker path.
  */
 public final class CreatorServer {
 
@@ -72,7 +72,7 @@ public final class CreatorServer {
             Files.createDirectories(marker.getParent());
             Files.writeString(marker, json, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            CosmicLib.LOG.warn("Could not write creator server marker: {}", e.getMessage());
+            LogicLib.LOG.warn("Could not write creator server marker: {}", e.getMessage());
         }
     }
 }

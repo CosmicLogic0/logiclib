@@ -1,18 +1,18 @@
-package com.cosmiclogic.cosmiclib.platform;
+package com.cosmiclogic.logiclib.platform;
 
-import com.cosmiclogic.cosmiclib.platform.services.IPlatformHelper;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.fml.loading.FMLPaths;
+import com.cosmiclogic.logiclib.platform.services.IPlatformHelper;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.fml.loading.FMLPaths;
 
 import java.nio.file.Path;
 
-public class ForgePlatformHelper implements IPlatformHelper {
+public class NeoForgePlatformHelper implements IPlatformHelper {
 
     @Override
     public String getPlatformName() {
-        return "Forge";
+        return "NeoForge";
     }
 
     @Override

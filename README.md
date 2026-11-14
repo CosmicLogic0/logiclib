@@ -1,9 +1,9 @@
-# CosmicLib
+# LogicLib
 
 Shared code library for CosmicLogic's Minecraft mods. Adds no gameplay on its own.
 You only need it if one of CosmicLogic's mods lists it as required.
 
-- Mod id: `cosmiclib` · Package: `com.cosmiclogic.cosmiclib` · License: MIT
+- Mod id: `logiclib` · Package: `com.cosmiclogic.logiclib` · License: MIT
 - Loaders: Forge, NeoForge · First version: Minecraft 1.21.1
 
 ## Building
@@ -16,17 +16,17 @@ During development: run `gradlew publishToMavenLocal` here, then in the mod:
 repositories { mavenLocal() }
 dependencies {
     // common module: compileOnly against the common jar
-    compileOnly "com.cosmiclogic.cosmiclib:cosmiclib-common-1.21.1:0.1.0"
+    compileOnly "com.cosmiclogic.logiclib:logiclib-common-1.21.1:0.1.0"
     // loader modules: the matching loader jar
-    implementation "com.cosmiclogic.cosmiclib:cosmiclib-neoforge-1.21.1:0.1.0"   // or -forge-
+    implementation "com.cosmiclogic.logiclib:logiclib-neoforge-1.21.1:0.1.0"   // or -forge-
 }
 ```
-After CosmicLib is on CurseForge, mods can use Curse Maven instead so GitHub Actions can build them.
+After LogicLib is on CurseForge, mods can use Curse Maven instead so GitHub Actions can build them.
 
 ### Modules
 | Class | What it does |
 |---|---|
 | `platform.Services.PLATFORM` | Loader name, `isModLoaded`, config folder, `isClient` |
-| `config.CosmicConfig` | JSON config: `CosmicConfig.create(MOD_ID, MyConfig.class, MyConfig::new).get()` |
+| `config.LogicConfig` | JSON config: `LogicConfig.create(MOD_ID, MyConfig.class, MyConfig::new).get()` |
 | `server.CreatorServer` | `CreatorServer.request(MOD_ID, config.addCreatorServer)` adds Logic Survival once across all mods |
-| `registry.CosmicRegistry` | `CosmicRegistry.register(Registries.ITEM, MOD_ID, "name", () -> new Item(...))` |
+| `registry.LogicRegistry` | `LogicRegistry.register(Registries.ITEM, MOD_ID, "name", () -> new Item(...))` |

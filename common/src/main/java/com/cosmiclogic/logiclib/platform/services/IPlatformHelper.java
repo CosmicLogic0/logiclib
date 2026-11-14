@@ -1,4 +1,4 @@
-package com.cosmiclogic.cosmiclib.platform.services;
+package com.cosmiclogic.logiclib.platform.services;
 
 import java.nio.file.Path;
 

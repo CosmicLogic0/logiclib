@@ -1,17 +1,16 @@
-package com.cosmiclogic.cosmiclib.platform;
+package com.cosmiclogic.logiclib.platform;
 
-import com.cosmiclogic.cosmiclib.platform.services.IRegistryHelper;
+import com.cosmiclogic.logiclib.platform.services.IRegistryHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModLoadingContext;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
-public class NeoForgeRegistryHelper implements IRegistryHelper {
+public class ForgeRegistryHelper implements IRegistryHelper {
 
     private static final Map<String, DeferredRegister<?>> REGISTERS = new ConcurrentHashMap<>();
 
@@ -26,11 +25,7 @@ public class NeoForgeRegistryHelper implements IRegistryHelper {
     private static <T> DeferredRegister<T> create(ResourceKey<? extends Registry<T>> registry, String modId) {
         DeferredRegister<T> register = DeferredRegister.create(registry, modId);
         // Attaches to the event bus of the mod currently being constructed.
-        IEventBus bus = ModLoadingContext.get().getActiveContainer().getEventBus();
-        if (bus == null) {
-            throw new IllegalStateException("CosmicRegistry.register must be called while mod '" + modId + "' is being constructed");
-        }
-        register.register(bus);
+        register.register(FMLJavaModLoadingContext.get().getModEventBus());
         return register;
     }
 }

@@ -1,8 +1,8 @@
-package com.cosmiclogic.cosmiclib.platform;
+package com.cosmiclogic.logiclib.platform;
 
-import com.cosmiclogic.cosmiclib.CosmicLib;
-import com.cosmiclogic.cosmiclib.platform.services.IPlatformHelper;
-import com.cosmiclogic.cosmiclib.platform.services.IRegistryHelper;
+import com.cosmiclogic.logiclib.LogicLib;
+import com.cosmiclogic.logiclib.platform.services.IPlatformHelper;
+import com.cosmiclogic.logiclib.platform.services.IRegistryHelper;
 
 import java.util.ServiceLoader;
 
@@ -23,7 +23,7 @@ public final class Services {
         final T loadedService = ServiceLoader.load(clazz)
                 .findFirst()
                 .orElseThrow(() -> new NullPointerException("Failed to load service for " + clazz.getName()));
-        CosmicLib.LOG.debug("Loaded {} for service {}", loadedService, clazz);
+        LogicLib.LOG.debug("Loaded {} for service {}", loadedService, clazz);
         return loadedService;
     }
 }
