@@ -98,3 +98,20 @@ jobs:
           modloader: ${{ matrix.loader }}
           mc-runtime-test: ${{ matrix.loader }}
           java: 21
+
+  # After every test passes: print each jar's checksum and base64 so Claude
+  # (whose workspace can't download artifacts) can take the exact tested jar.
+  export:
+    needs: [server-test, client-test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: logiclib-jars
+          path: jars
+      - name: Print tested jars
+        run: |
+          for f in $(find jars -name '*.jar' ! -name '*-sources.jar' | sort); do
+            echo "JAR $(basename $f) $(stat -c%s $f) $(sha256sum $f | cut -d' ' -f1)"
+            echo "B64BEGIN $(basename $f)"; base64 -w 0 $f; echo; echo "B64END"
+          done
