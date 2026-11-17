@@ -1,0 +1,42 @@
+// LogicLib for NeoForge on Minecraft 26.x (ModDevGradle). Same code as every other version: ../src/common + ../src/neoforge with //#if blocks.
+// Build setup copied from CosmicLogic0/death-breakdown ports/neoforge-26 (originally villager-reroller).
+plugins {
+    id 'java'
+    id 'net.neoforged.moddev' version '2.0.148'
+}
+
+apply from: '../shared.gradle'
+def mcv = project.minecraft_version as String
+version = "${project.mod_version}"
+group = 'com.cosmiclogic.logiclib'
+base { archivesName = "logiclib-neoforge-${mcv}" }
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+
+neoForge {
+    version = project.neo_version
+    runs { client { client() } }
+    mods { logiclib { sourceSet(sourceSets.main) } }
+}
+
+def gen = layout.buildDirectory.dir('gen-src').get().asFile
+def ctx = [mc: mcv, FABRIC: false, FORGE: false, NEOFORGE: true, JAVA8: false, RELOCATE: false]
+tasks.register('llSources') {
+    inputs.dir('../src'); inputs.property('ctx', ctx.toString()); outputs.dir(gen)
+    doLast { vrGenerate(['../src/neoforge', '../src/common'], gen, ctx) }
+}
+def res = layout.buildDirectory.dir('gen-res')
+def mcRange = project.findProperty('mc_range') ?: "[${mcv}]"
+tasks.register('llResources', Sync) {
+    from('../../common/src/main/resources') { include 'logiclib.png' }
+    from('src/res')
+    from('../res-neoforge')
+    into res
+    inputs.property 'v', "${project.mod_version} ${mcRange}"
+    filesMatching('META-INF/neoforge.mods.toml') { expand 'version': project.mod_version, 'mcRange': mcRange }
+}
+sourceSets.main.java.srcDirs = [gen]
+sourceSets.main.resources.srcDirs = [res]
+compileJava.dependsOn 'llSources'
+processResources.dependsOn 'llResources'
+tasks.matching { it.name in ['sourcesJar', 'neoForgeIdeSync'] }.configureEach { dependsOn 'llSources', 'llResources' }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 25 }

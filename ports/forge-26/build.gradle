@@ -1,0 +1,53 @@
+// LogicLib for Forge (ForgeGradle 7) on Minecraft 26.x. Same code as every other version: ../src/common + ../src/forge with //#if blocks.
+// Build setup copied from CosmicLogic0/death-breakdown ports/forge-26 (originally villager-reroller).
+plugins {
+    id 'java'
+    id 'net.minecraftforge.gradle' version '[7.0.17,8)'
+}
+
+apply from: '../shared.gradle'
+def mcv = project.minecraft_version as String
+version = "${project.mod_version}"
+group = 'com.cosmiclogic.logiclib'
+base { archivesName = "logiclib-forge-${mcv}" }
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+
+minecraft {
+    runs {
+        configureEach { workingDir = layout.projectDirectory.dir('run') }
+        register('client')
+    }
+}
+repositories {
+    minecraft.mavenizer(it)
+    maven fg.forgeMaven
+    maven fg.minecraftLibsMaven
+    mavenCentral()
+}
+dependencies {
+    implementation minecraft.dependency("net.minecraftforge:forge:${mcv}-${project.forge_version}")
+}
+
+def gen = layout.buildDirectory.dir('gen-src').get().asFile
+def ctx = [mc: mcv, FABRIC: false, FORGE: true, NEOFORGE: false, JAVA8: false, RELOCATE: false]
+tasks.register('llSources') {
+    inputs.dir('../src'); inputs.property('ctx', ctx.toString()); outputs.dir(gen)
+    doLast { vrGenerate(['../src/forge', '../src/common'], gen, ctx) }
+}
+def res = layout.buildDirectory.dir('gen-res')
+def mcRange = project.findProperty('mc_range') ?: "[${mcv}]"
+def forgeMajor = (project.forge_version.split('\\.')[0]) as int
+tasks.register('llResources', Sync) {
+    from('../../common/src/main/resources') { include 'logiclib.png' }
+    from('src/res')
+    from('../res-forge')
+    into res
+    inputs.property 'v', "${project.mod_version} ${mcRange} ${forgeMajor}"
+    filesMatching('META-INF/mods.toml') { expand 'version': project.mod_version, 'mcRange': mcRange, 'forgeMajor': forgeMajor }
+}
+sourceSets.main.java.srcDirs = [gen]
+sourceSets.main.resources.srcDirs = [res]
+compileJava.dependsOn 'llSources'
+processResources.dependsOn 'llResources'
+tasks.matching { it.name == 'sourcesJar' }.configureEach { dependsOn 'llSources', 'llResources' }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 25 }

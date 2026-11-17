@@ -1,0 +1,31 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "MIT"
+issueTrackerURL = "https://github.com/CosmicLogic0/logiclib/issues"
+
+[[mods]]
+modId = "logiclib"
+version = "${version}"
+displayName = "LogicLib"
+authors = "CosmicLogic"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/logiclib"
+logoFile = "logiclib.png"
+# A library: it doesn't care whether the other side has it.
+displayTest = "IGNORE_ALL_VERSION"
+description = """
+Shared code library for CosmicLogic's mods. Adds no gameplay on its own.
+"""
+
+[[dependencies.logiclib]]
+modId = "neoforge"
+type = "required"
+versionRange = "[26,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.logiclib]]
+modId = "minecraft"
+type = "required"
+versionRange = "${mcRange}"
+ordering = "NONE"
+side = "BOTH"

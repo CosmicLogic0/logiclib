@@ -1,0 +1,16 @@
+# Every extra build of LogicLib (the main 1.21.1 MultiLoader build is build.yml): <loader> <minecraft>
+# loader: forge / neoforge (ports/forge, Architectury Loom), forge26 / neoforge26 (ports/forge-26, ports/neoforge-26)
+forge 1.21.11
+forge 1.21.1
+forge 1.20.1
+forge 1.19.2
+forge 1.18.2
+forge 1.16.5
+neoforge 1.21.11
+neoforge 1.21.1
+forge26 26.3
+forge26 26.2
+forge26 26.1.2
+neoforge26 26.3
+neoforge26 26.2
+neoforge26 26.1.2
