@@ -1,0 +1,16 @@
+FAIL build=failure server=skipped client=skipped creator-server=skipped (1.21.1-52.1.21)
+* What went wrong:
+A problem occurred configuring root project 'logiclib-forge'.
+> Could not resolve all artifacts for configuration 'classpath'.
+   > Could not resolve com.google.code.gson:gson:2.14.0.
+     Required by:
+         buildscript of root project 'logiclib-forge' > dev.architectury.loom:dev.architectury.loom.gradle.plugin:1.17.493 > dev.architectury:architectury-loom:1.17.493
+      > Could not resolve com.google.code.gson:gson:2.14.0.
+         > Could not parse POM https://maven.minecraftforge.net/com/google/code/gson/gson/2.14.0/gson-2.14.0.pom
+            > Could not resolve com.google.code.gson:gson-parent:2.14.0.
+               > Could not resolve com.google.code.gson:gson-parent:2.14.0.
+                  > Could not get resource 'https://maven.fabricmc.net/com/google/code/gson/gson-parent/2.14.0/gson-parent-2.14.0.pom'.
+                     > Could not GET 'https://maven.fabricmc.net/com/google/code/gson/gson-parent/2.14.0/gson-parent-2.14.0.pom'. Received status code 502 from server: Bad Gateway
+> There are 23 more failures with identical causes.
+* Try:
+> Run with --stacktrace option to get the stack trace.
