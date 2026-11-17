@@ -1,5 +1,0 @@
-forge 1.16.5
-forge26 26.3
-forge26 26.2
-forge26 26.1.2
-forge 1.20.1
