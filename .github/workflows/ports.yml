@@ -112,6 +112,9 @@ jobs:
           mkdir -p run/mods run/config && cp "${{ steps.jar.outputs.file }}" run/mods/
           # Makes LogicLib ask for the creator server itself, so the add-once feature is tested for real.
           touch run/config/logiclib-selftest
+          # mc-runtime-test gives the game the current JAVA_HOME, so point it at the Java this version needs
+          # (otherwise 1.16.5 gets Java 25 and HeadlessMC can't install Forge).
+          echo "JAVA_HOME=$(eval echo \$JAVA_HOME_${{ matrix.java }}_X64)" >> "$GITHUB_ENV"
       - name: Client test (real game)
         id: client
         if: always() && steps.jar.outputs.file != ''

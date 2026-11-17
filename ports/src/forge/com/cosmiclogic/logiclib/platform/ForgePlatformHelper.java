@@ -17,7 +17,28 @@ public class ForgePlatformHelper implements IPlatformHelper {
 
     @Override
     public boolean isModLoaded(String modId) {
+        //#if MC >= 26.1
+        // Forge 26 changed how ModList is reached, so look it up by name instead of guessing one exact method.
+        try {
+            for (java.lang.reflect.Method m : ModList.class.getMethods()) {
+                if (java.lang.reflect.Modifier.isStatic(m.getModifiers()) && m.getName().equals("isLoaded")
+                        && m.getParameterCount() == 1 && m.getParameterTypes()[0] == String.class) {
+                    return (Boolean) m.invoke(null, modId);
+                }
+            }
+            for (java.lang.reflect.Method m : ModList.class.getMethods()) {
+                if (java.lang.reflect.Modifier.isStatic(m.getModifiers()) && m.getParameterCount() == 0
+                        && ModList.class.isAssignableFrom(m.getReturnType())) {
+                    Object list = m.invoke(null);
+                    return (Boolean) ModList.class.getMethod("isLoaded", String.class).invoke(list, modId);
+                }
+            }
+        } catch (Throwable ignored) {
+        }
+        return false;
+        //#else
         return ModList.get().isLoaded(modId);
+        //#endif
     }
 
     @Override
