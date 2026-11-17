@@ -1,0 +1,37 @@
+// LogicLib for Forge 1.12.2. Build setup follows CleanroomMC's TemplateDevEnv (RetroFuturaGradle), same as Death Breakdown.
+// 1.12.2 uses completely different (MCP) names and an older Forge, so it has its own small source in src/main/java.
+// The API is the same as every other version: LogicLib, Services.PLATFORM, LogicConfig, CreatorServer.
+plugins {
+    id 'java'
+    id 'com.gtnewhorizons.retrofuturagradle' version '2.0.3'
+}
+
+version = project.mod_version
+group = 'com.cosmiclogic.logiclib'
+base { archivesName = 'logiclib-forge-1.12.2' }
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+        vendor.set(JvmVendorSpec.AZUL)
+    }
+}
+
+minecraft {
+    mcVersion.set('1.12.2')
+    mcpMappingChannel.set('stable')
+    mcpMappingVersion.set('39')
+    username.set('Developer')
+}
+
+sourceSets.main.resources.srcDir layout.buildDirectory.dir('logo-res')
+tasks.register('llLogo', Sync) {
+    from('../../common/src/main/resources') { include 'logiclib.png' }
+    into layout.buildDirectory.dir('logo-res')
+}
+processResources {
+    dependsOn 'llLogo'
+    inputs.property 'version', project.mod_version
+    filesMatching('mcmod.info') { expand 'version': project.mod_version }
+}
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
